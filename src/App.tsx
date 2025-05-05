@@ -14,11 +14,19 @@ import { InputNumber } from 'primereact/inputnumber';
 import logo from './logo.svg';
 import './App.css';
 import { Login } from './pages/login/Login';
+import { Home } from './pages/home/Home';
+import { User } from './pages/home/types';
 
 function App() {
+  const [users,setUsers]=useState<User[]>([])
+  const [selectedUsers,setSelectedUsers]=useState<User | null>(null)
+  const [showAddUserForm, setShowAddUserForm] = useState(false);
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   return (
     <div>
       <Login/>
+      <Home user={users[0]}/>
     </div>
   );
 }
