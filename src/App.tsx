@@ -11,6 +11,7 @@ import { UserPage } from './pages/user/User';
 import Error from './pages/Error/error';
 import RootLayout from './pages/RootLayout';
 import Dummy from './Dummy';
+import { Login } from './pages/login/Login';
 
 function App() {
   const router = createBrowserRouter ([
@@ -19,6 +20,7 @@ function App() {
     children:[
       {index: true ,element:<Dummy/>},
       {path:'users',element:<UserPage/>},
+      {path:'login',element:<Login/>},
       {path:'home',element:<Home/>}]
   }    
   ])

@@ -1,18 +1,18 @@
-import { handleLogin } from "../../services/UserServices"
+import { loginUser } from "../../services/UserServices"
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { FormEvent } from "react";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const Login =()=>{
-
+    const navigate=useNavigate()
     const handleSubmit=async (event:FormEvent)=>{
         event.preventDefault();
         const fd = new FormData(event.target as HTMLFormElement);
         const name= fd.get("name");
         const pass= fd.get("pass");
-        await handleLogin(name,pass);
-        redirect("/")
+        const authUser=await loginUser(name,pass);
+        if(authUser) navigate("/home")
       }
     return <>
     <form onSubmit={handleSubmit}>

@@ -5,20 +5,14 @@ import { InputText } from 'primereact/inputtext';
 import { InputNumber } from 'primereact/inputnumber';
 import { useEffect, useState,FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAuthenticatedUser } from '../../services/UserServices';
-import { Login } from '../login/Login';
 
 
 export const Home=()=>{
     const [visible, setVisible] = useState(false);
+    const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
      const [user, setUser] = useState<User | null>(null);
      const navigate = useNavigate();
-  const authUsers = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) return;
-    const user = await getAuthenticatedUser(token);
-    if (!user) return <Login/>;
-  };
+
      useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -29,9 +23,9 @@ export const Home=()=>{
         console.error('Failed to fetch user:', err);
       }
     };
-    authUsers();
+
     fetchUser();
-  }, []);
+  }, [token]);
 
     const handleUpdate = () => {
       setVisible(true);
@@ -56,12 +50,12 @@ export const Home=()=>{
      
 };
     
-    return <>
-    <Button label="Update Profile" icon="pi pi-pencil" onClick={handleUpdate}/><br/>
+    return <>{token?
+    <><Button label="Update Profile" icon="pi pi-pencil" onClick={handleUpdate}/><br/>
+    <Button label="LogOut" onClick={()=>setToken(null)}/><br/>
     <Dialog header="Update Profile" visible={visible} onHide={() => setVisible(false)}>
             {user?
             <form onSubmit={handleUpdateSubmit}>
-
           <label>Email</label>
           <InputText name="email" defaultValue={user.email} />
           <br />
@@ -87,6 +81,8 @@ export const Home=()=>{
         </form>:<h1>LogIn Again</h1>}
             
         </Dialog>
-    <Button label="Show All Users" onClick={()=>{navigate('/users')}}/>
+    <Button label="Show All Users" onClick={()=>{navigate('/users')}}/></>:
+          <Button label="Go To LogIn Page" onClick={()=>navigate('/login')}/>
+    }
     </>
 }

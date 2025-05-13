@@ -1,7 +1,12 @@
 import { InputText } from "primereact/inputtext"
 import { Button } from "primereact/button"
-import { FormEvent } from "react"
+import { FormEvent, useState } from "react"
+import { useNavigate } from "react-router-dom";
 export const UserPage=()=>{
+     const navigate = useNavigate();
+
+        const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+    
     const handleSubmit=(event: FormEvent)=>{
         event.preventDefault();
         const fd = new FormData(event.target as HTMLFormElement);
@@ -11,7 +16,8 @@ export const UserPage=()=>{
        .then(user=>console.info(user));
       }
     return <>
-    <h3>Search User </h3>
+    {token?<><Button label="LogOut" onClick={()=>setToken(null)}/><br/>
+        <h3>Search User </h3>
           <form onSubmit={handleSubmit}>
           <label>First name </label>
           <InputText placeholder='Write First name' name='name'/>
@@ -24,6 +30,7 @@ export const UserPage=()=>{
           <label> Value </label>
           <InputText placeholder='value' name='value'/>
           <Button label='Filter'/>
-          </form>
+          </form></>:
+        <Button label="Go To LogIn Page" onClick={()=>navigate('/login')}/>}
     </>
 }
