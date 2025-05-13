@@ -32,4 +32,4 @@ export const handleLogin=async (name:FormDataEntryValue|null, pass:FormDataEntry
   } else {
     alert('Login Failed');
   }
-  }
+}
