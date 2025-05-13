@@ -2,6 +2,7 @@ import { handleLogin } from "../../services/UserServices"
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { FormEvent } from "react";
+import { redirect } from "react-router-dom";
 
 export const Login =()=>{
 
@@ -11,6 +12,7 @@ export const Login =()=>{
         const name= fd.get("name");
         const pass= fd.get("pass");
         await handleLogin(name,pass);
+        redirect("/")
       }
     return <>
     <form onSubmit={handleSubmit}>

@@ -1,3 +1,5 @@
+import { redirect } from "react-router-dom";
+
 const API = "https://dummyjson.com";
 
 // This function fetches the list of users from the dummyjson API
@@ -29,6 +31,7 @@ export const handleLogin=async (name:FormDataEntryValue|null, pass:FormDataEntry
   if (res.ok) {
     localStorage.setItem('token', data.accessToken);
     alert('Login Successful');
+    redirect("/")
   } else {
     alert('Login Failed');
   }
