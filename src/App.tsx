@@ -11,15 +11,16 @@ import { Login } from './pages/login/Login';
 import { Home } from './pages/home/Home';
 import { User } from './pages/home/types';
 import { UserPage } from './pages/user/User';
-import Error from './Error/error';
+import Error from './pages/Error/error';
+import RootLayout from './pages/RootLayout';
 
 function App() {
   const [users,setUsers]=useState<User[]>([])
   const router = createBrowserRouter ([
-    {path:'/',element:<Login/>,
+    {path:'/',element:<RootLayout/>,
       errorElement: <Error /> ,
     children:[
-      {path:'login',element:<Login/>},
+      {index: true ,element:<Login/>},
       {path:'users',element:<UserPage/>},
       {path:'home',element:<Home user={users[0]}/>}]
   }    

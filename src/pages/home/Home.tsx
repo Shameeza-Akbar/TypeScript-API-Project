@@ -5,13 +5,14 @@ import { User } from './types';
 import { InputText } from 'primereact/inputtext';
 import { InputNumber } from 'primereact/inputnumber';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 type HomeProps = {
     user: User ;
   };
 export const Home=({user}:HomeProps)=>{
     const [visible, setVisible] = useState(false);
-
+    const navigate = useNavigate();
     const handleUpdate = () => {
       setVisible(true);
     };
@@ -48,6 +49,6 @@ export const Home=({user}:HomeProps)=>{
           <Button type="submit" label="Update User" />
         </form>
         </Dialog>
-    <Button label="Show All Users" />
+    <Button label="Show All Users" onClick={()=>{navigate('/users')}}/>
     </>
 }
