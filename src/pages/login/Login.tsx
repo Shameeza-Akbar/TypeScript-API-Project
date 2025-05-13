@@ -10,12 +10,8 @@ export const Login =()=>{
         const fd = new FormData(event.target as HTMLFormElement);
         const name= fd.get("name");
         const pass= fd.get("pass");
-
-    try {
         await handleLogin(name,pass);
-      } catch (error) {
-        alert('Login Failed');
-      }}
+      }
     return <>
     <form onSubmit={handleSubmit}>
         <label>Name</label>

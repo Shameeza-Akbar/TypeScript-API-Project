@@ -16,6 +16,7 @@ import './App.css';
 import { Login } from './pages/login/Login';
 import { Home } from './pages/home/Home';
 import { User } from './pages/home/types';
+import { UserPage } from './pages/user/User';
 
 function App() {
   const [users,setUsers]=useState<User[]>([])
@@ -27,6 +28,7 @@ function App() {
     <div>
       <Login/>
       <Home user={users[0]}/>
+      <UserPage/>
     </div>
   );
 }
