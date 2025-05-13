@@ -1,4 +1,5 @@
 import { redirect } from "react-router-dom";
+import { User } from "../pages/home/types";
 
 const API = "https://dummyjson.com";
 
@@ -11,7 +12,6 @@ export const fetchUsers = async (url:string) => {
       // If not, throw an error to be caught by the caller
       console.error('Failed to fetch users');
     }
-  
     // Convert the response to JSON and return it
     return response.json();
   };
@@ -23,7 +23,7 @@ export const handleLogin=async (name:FormDataEntryValue|null, pass:FormDataEntry
       body: JSON.stringify({
         username: `${name}`,
         password: `${pass}`,
-        expiresInMins: 60, // optional, defaults to 60
+        expiresInMins: 1, // optional, defaults to 60
       }),
     })
     
@@ -36,3 +36,12 @@ export const handleLogin=async (name:FormDataEntryValue|null, pass:FormDataEntry
     alert('Login Failed');
   }
 }
+
+export const getAuthenticatedUser = async (token: string): Promise<User> => {
+  const res = await fetch('https://dummyjson.com/user/me', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.json();
+};

@@ -26,7 +26,7 @@ export const Error: React.FC = () => {
             {!error.status && !error.statusText && !error.error && <p>An unexpected error occurred.</p>}
           </>
         )}
-        <Button label="Go Back Home" onClick={()=>navigate('/')} className="p-button-secondary" />
+        <Button label="Go Back LogIn" onClick={()=>navigate('/')} className="p-button-secondary" />
       </div>
     </div>
   );
