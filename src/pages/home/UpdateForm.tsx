@@ -5,6 +5,7 @@ import { Dialog } from 'primereact/dialog';
 import { RadioButton } from 'primereact/radiobutton';
 import { User, bloodGroupArr, genderArr } from './types';
 import { useEffect, useState,FormEvent } from 'react';
+import { getUserById } from "../../services/UserServices";
 
 
 export const Update = ()=>{
@@ -20,8 +21,7 @@ export const Update = ()=>{
     useEffect(() => {
         const fetchUser = async () => {
           try {
-            const res = await fetch('https://dummyjson.com/users/1');
-            const data = await res.json();
+            const data = await getUserById("1");
             setUser(data);
           } catch (err) {
             console.error('Failed to fetch user:', err);

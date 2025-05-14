@@ -1,19 +1,20 @@
 import { User } from "../pages/home/types";
 
-const API = "https://dummyjson.com";
+const API = "https://dummyjson.com/users";
 
-// This function fetches the list of users from the dummyjson API
-export const fetchUsers = async (url:string) => {
-    const response = await fetch(`${API}${url}`);
-  
-    // Check if the response was successful
+export const fetchUsers = async () => {
+    const response = await fetch(`${API}`);
     if (!response.ok) {
-      // If not, throw an error to be caught by the caller
       console.error('Failed to fetch users');
     }
-    // Convert the response to JSON and return it
     return response.json();
+  }; // FetchUsers function
+
+  export const getUserById = async (id: string): Promise<User> => {
+    const res = await fetch(`${API}/${id}`);
+    return res.json();
   };
+
 export const loginUser = async (name:FormDataEntryValue|null, pass:FormDataEntryValue|null): Promise<string> => {
   const res = await fetch('https://dummyjson.com/user/login', {
     method: 'POST',
@@ -33,7 +34,7 @@ export const loginUser = async (name:FormDataEntryValue|null, pass:FormDataEntry
     alert('Login Failed');
   }
   return data.accessToken;
-};
+}; // loginUserFunction
 
 export const getAuthenticatedUser = async (token: string): Promise<User> => {
   const res = await fetch('https://dummyjson.com/user/me', {
@@ -42,4 +43,4 @@ export const getAuthenticatedUser = async (token: string): Promise<User> => {
     },
   });
   return res.json();
-};
+}; // GetAuthenticatedUser Function
