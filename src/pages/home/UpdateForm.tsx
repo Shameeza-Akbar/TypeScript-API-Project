@@ -1,45 +1,59 @@
 import { InputText } from "primereact/inputtext"
-import { User } from "./types"
-import { InputNumber } from "primereact/inputnumber"
 import { Button } from "primereact/button"
-import { FormEvent } from "react"
+import { useNavigate } from 'react-router-dom';
+import { Dialog } from 'primereact/dialog';
+import { RadioButton } from 'primereact/radiobutton';
+import { User, bloodGroupArr, genderArr } from './types';
+import { useEffect, useState,FormEvent } from 'react';
 
-type UpdateProps = {
-    user: User;
-  };
-export const Update = ({user}:UpdateProps)=>{
 
-    const handleUpdateSubmit = (event:FormEvent) => {
-        event.preventDefault();
-        const fd = new FormData(event.target as HTMLFormElement);
-        const updatedUser = {
-          email: fd.get("email"),
-          username: fd.get("username"),
-          firstName: fd.get("fname"),
-          lastName: fd.get("lname"),
-          gender: fd.get("gender"),
-          age: fd.get("age"),
-          phone: fd.get("phone"),
+export const Update = ()=>{
+    const [visible, setVisible] = useState(false);
+    const [user, setUser] = useState<User | null>(null);
+    const [updatedGender, setUpdatedGender] = useState<string>(user?.gender || '');
+    const [updatedBloodGroup, setUpdatedBloodGroup] = useState<string>(user?.bloodGroup|| "");
+    const navigate = useNavigate();
+    const handleUpdate = () => {
+      setVisible(true);
+    };
+    
+    useEffect(() => {
+        const fetchUser = async () => {
+          try {
+            const res = await fetch('https://dummyjson.com/users/1');
+            const data = await res.json();
+            setUser(data);
+          } catch (err) {
+            console.error('Failed to fetch user:', err);
+          }
         };
-      
-        // Make PUT request to update the user on the server
-        fetch(`https://dummyjson.com/users/${user.id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(updatedUser),
-        })
-          .then((res) => res.json())
-      };
+    
+        fetchUser();
+      }, []);
 
-      
-    return <>
-    <form onSubmit={handleUpdateSubmit}>
-          <h3>Update User</h3>
-          <label>Email</label>
-          <InputText name="email" defaultValue={user.email} />
-          <br />
+           const handleUpdateSubmit = (event: FormEvent) => {
+  event.preventDefault();
+  const fd = new FormData(event.target as HTMLFormElement);
+  const updatedUser = {
+    id: 1,
+    email: fd.get("email")as string,
+    username: fd.get("username")as string,
+    firstName: fd.get("fname")as string,
+    lastName: fd.get("lname")as string,
+    gender: updatedGender,
+    bloodGroup: updatedBloodGroup,
+  };
+      // Update the users state with the new user data
+      setUser(updatedUser);
+      setVisible(false)
+     
+};
+    return <><Button label="Update Profile" icon="pi pi-pencil" onClick={handleUpdate}/><br/>
+    
+    <Dialog header="Update Profile" visible={visible} onHide={() => setVisible(false)}>
+            {user?
+            <form onSubmit={handleUpdateSubmit}>
+          
           <label>Username</label>
           <InputText name="username" defaultValue={user.username} />
           <br />
@@ -49,15 +63,34 @@ export const Update = ({user}:UpdateProps)=>{
           <label>Last Name</label>
           <InputText name="lname" defaultValue={user.lastName} />
           <br />
+          <label>Email</label>
+          <InputText name="email" defaultValue={user.email} />
+          <br />
           <label>Gender</label>
-          <InputText name="gender" defaultValue={user.gender} />
-          <br />
-          <label>Age</label>
-          <InputNumber name="age" defaultValue={user.age} />
-          <br />
-          <label>Phone</label>
-          <InputNumber name="phone" defaultValue={user.phone} />
-          <br />
+          <div>
+            {genderArr.map((val)=>(<><RadioButton
+            inputId={val}
+            name="gender"
+            value={val}
+            onChange={(e) => setUpdatedGender(e.value)}
+            checked={updatedGender === val}
+            />
+            <label htmlFor={val} className="ml-2">{val}</label><br/></>))}
+          </div><br />
+          <label>Blood Group</label>
+          <div>
+            {bloodGroupArr.map((val)=>(<><RadioButton
+            inputId={val}
+            name="bloodGroup"
+            value={val}
+            onChange={(e) => setUpdatedBloodGroup(e.value)}
+            checked={updatedBloodGroup === val}
+            />
+            <label htmlFor={val} className="ml-2">{val}</label><br/></>))}
+          </div><br />
           <Button type="submit" label="Update User" />
-        </form></>
+        </form>:<h1>LogIn Again</h1>}
+            
+        </Dialog>
+    <Button label="Show All Users" onClick={()=>{navigate('/users')}}/></>
 }

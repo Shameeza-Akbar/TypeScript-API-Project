@@ -4,7 +4,8 @@ export interface User {
     email: string;
     firstName: string;
     lastName: string;
-    age: number;
     gender: string;
-    phone: string;
+    bloodGroup: string;
   }
+export  const bloodGroupArr=["A+","A-","B+","B-","AB+","AB-","O+","O-"];
+export const genderArr = ["male","female"];

@@ -235,7 +235,7 @@ const Dummy: React.FC = () => {
         <Column field="lastName" header="Last Name" />
         <Column field="age" header="Age" />
         <Column field="gender" header="Gender" />
-        <Column field="phone" header="Phone" />
+        <Column field="bloodGroup" header="BloodGroup" />
         <Column
           header="Delete"
           body={(rowData) => (
