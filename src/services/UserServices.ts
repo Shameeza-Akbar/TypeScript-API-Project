@@ -15,6 +15,39 @@ export const fetchUsers = async () => {
     return res.json();
   };
 
+  export const updateUser = async (id: string, userData: Partial<User>): Promise<User> => {
+    const res = await fetch(`${API}/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userData),
+    });
+    return res.json();
+  };
+
+  export const filterUsers = async (key: string, value: string): Promise<User[]> => {
+    const res = await fetch(`${API}/filter?key=${key}&value=${value}`);
+    const data = await res.json();
+    return data.users;
+  };
+
+  export const searchUsers = async (query: string): Promise<User[]> => {
+    const res = await fetch(`${API}/search?q=${query}`);
+    const data = await res.json();
+    return data.users;
+  };
+
+  export const getAllUsers = async (): Promise<User[]> => {
+    const res = await fetch(API);
+    const data = await res.json();
+    return data.users;
+  };
+
+  export const deleteUser = async (id: string): Promise<void> => {
+    await fetch(`${API}/${id}`, {
+      method: 'DELETE',
+    });
+  };
+
 export const loginUser = async (name:FormDataEntryValue|null, pass:FormDataEntryValue|null): Promise<string> => {
   const res = await fetch('https://dummyjson.com/user/login', {
     method: 'POST',
@@ -34,7 +67,7 @@ export const loginUser = async (name:FormDataEntryValue|null, pass:FormDataEntry
     alert('Login Failed');
   }
   return data.accessToken;
-}; // loginUserFunction
+};
 
 export const getAuthenticatedUser = async (token: string): Promise<User> => {
   const res = await fetch('https://dummyjson.com/user/me', {
@@ -43,4 +76,13 @@ export const getAuthenticatedUser = async (token: string): Promise<User> => {
     },
   });
   return res.json();
-}; // GetAuthenticatedUser Function
+}; 
+
+export const addUser = async (userData: Partial<User>): Promise<User> => {
+  const res = await fetch(`${API}/add`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(userData),
+  });
+  return res.json();
+};

@@ -233,7 +233,6 @@ const Dummy: React.FC = () => {
         <Column field="email" header="Email" />
         <Column field="firstName" header="First Name" />
         <Column field="lastName" header="Last Name" />
-        <Column field="age" header="Age" />
         <Column field="gender" header="Gender" />
         <Column field="bloodGroup" header="BloodGroup" />
         <Column
