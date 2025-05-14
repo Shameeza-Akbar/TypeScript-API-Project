@@ -49,10 +49,14 @@ export const Home=()=>{
       setVisible(false)
      
 };
+ const handleLogout=()=>{
+        localStorage.removeItem('token');
+        setToken(null)
+      }
     
     return <>{token?
     <><Button label="Update Profile" icon="pi pi-pencil" onClick={handleUpdate}/><br/>
-    <Button label="LogOut" onClick={()=>setToken(null)}/><br/>
+    <Button label="LogOut" onClick={handleLogout}/><br/>
     <Dialog header="Update Profile" visible={visible} onHide={() => setVisible(false)}>
             {user?
             <form onSubmit={handleUpdateSubmit}>

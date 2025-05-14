@@ -15,8 +15,13 @@ export const UserPage=()=>{
         .then(res => res.json())
        .then(user=>console.info(user));
       }
+
+      const handleLogout=()=>{
+        localStorage.removeItem('token');
+        setToken(null)
+      }
     return <>
-    {token?<><Button label="LogOut" onClick={()=>setToken(null)}/><br/>
+    {token?<><Button label="LogOut" onClick={handleLogout}/><br/>
         <h3>Search User </h3>
           <form onSubmit={handleSubmit}>
           <label>First name </label>
