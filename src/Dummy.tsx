@@ -5,6 +5,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { InputNumber } from 'primereact/inputnumber';
+import { RadioButton } from 'primereact/radiobutton';
 import {
   getAllUsers,
   searchUsers,
@@ -28,6 +29,10 @@ const Dummy: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [showAddUserForm, setShowAddUserForm] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
+  const [newGender, setNewGender] = useState<string>('male');
+  const [updatedGender, setUpdatedGender] = useState<string>(selectedUser?.gender || 'male');
+
+
 
   useEffect(() => {
     fetchUsers();
@@ -74,7 +79,7 @@ const Dummy: React.FC = () => {
       username: fd.get('username') as string,
       firstName: fd.get('fname') as string,
       lastName: fd.get('lname') as string,
-      gender: fd.get('gender') as string,
+     gender: newGender,
       age: Number(fd.get('age')),
       phone: fd.get('phone') as string,
     };
@@ -98,7 +103,7 @@ const Dummy: React.FC = () => {
       username: fd.get('username') as string,
       firstName: fd.get('fname') as string,
       lastName: fd.get('lname') as string,
-      gender: fd.get('gender') as string,
+      gender: updatedGender,
       age: Number(fd.get('age')),
       phone: fd.get('phone') as string,
     };
@@ -141,7 +146,26 @@ const Dummy: React.FC = () => {
           <InputText name="username" placeholder="Username" /><br />
           <InputText name="fname" placeholder="First Name" /><br />
           <InputText name="lname" placeholder="Last Name" /><br />
-          <InputText name="gender" placeholder="Gender" /><br />
+          <div className="flex align-items-center gap-3">
+  <RadioButton
+    inputId="male"
+    name="gender"
+    value="male"
+    onChange={(e) => setNewGender(e.value)}
+    checked={newGender === 'male'}
+  />
+  <label htmlFor="male" className="ml-2">Male</label>
+
+  <RadioButton
+    inputId="female"
+    name="gender"
+    value="female"
+    onChange={(e) => setNewGender(e.value)}
+    checked={newGender === 'female'}
+  />
+  <label htmlFor="female" className="ml-2">Female</label>
+</div><br />
+
           <InputNumber name="age" placeholder="Age" /><br />
           <InputNumber name="phone" placeholder="Phone" /><br />
           <Button type="submit" label="Add User" />
@@ -170,7 +194,29 @@ const Dummy: React.FC = () => {
           <InputText name="fname" defaultValue={selectedUser.firstName} /><br />
           <InputText name="lname" defaultValue={selectedUser.lastName} /><br />
           <InputText name="gender" defaultValue={selectedUser.gender} /><br />
-          <InputNumber name="age" defaultValue={selectedUser.age} /><br />
+          <label>Gender</label>
+          <div className="flex align-items-center gap-3">
+  <RadioButton
+    inputId="maleUpdate"
+    name="gender"
+    value="male"
+    onChange={(e) => setUpdatedGender(e.value)}
+    checked={updatedGender === 'male'}
+  />
+  <label htmlFor="maleUpdate" className="ml-2">Male</label>
+
+  <RadioButton
+    inputId="femaleUpdate"
+    name="gender"
+    value="female"
+    onChange={(e) => setUpdatedGender(e.value)}
+    checked={updatedGender === 'female'}
+  />
+  <label htmlFor="femaleUpdate" className="ml-2">Female</label>
+</div><br />
+
+
+
           <InputNumber name="phone" defaultValue={selectedUser.phone} /><br />
           <Button type="submit" label="Update User" />
         </form>

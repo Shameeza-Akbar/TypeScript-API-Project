@@ -4,14 +4,16 @@ import { User } from './types';
 import { InputText } from 'primereact/inputtext';
 import { InputNumber } from 'primereact/inputnumber';
 import { useEffect, useState,FormEvent } from 'react';
+import { RadioButton } from 'primereact/radiobutton';
 import { useNavigate } from 'react-router-dom';
 
 
 export const Home=()=>{
     const [visible, setVisible] = useState(false);
-    const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
-     const [user, setUser] = useState<User | null>(null);
-     const navigate = useNavigate();
+    const [token, setToken] = useState<string | null>(localStorage.getItem('token'));  
+    const [user, setUser] = useState<User | null>(null);
+    const [updatedGender, setUpdatedGender] = useState<string>(user?.gender || 'male');
+    const navigate = useNavigate();
 
      useEffect(() => {
     const fetchUser = async () => {
@@ -40,7 +42,7 @@ export const Home=()=>{
     username: fd.get("username")as string,
     firstName: fd.get("fname")as string,
     lastName: fd.get("lname")as string,
-    gender: fd.get("gender")as string,
+    gender: updatedGender,
     age: Number(fd.get("age")),
     phone: fd.get("phone")as string,
   };
@@ -72,12 +74,29 @@ export const Home=()=>{
           <label>Last Name</label>
           <InputText name="lname" defaultValue={user.lastName} />
           <br />
-          <label>Gender</label>
-          <InputText name="gender" defaultValue={user.gender} />
-          <br />
           <label>Age</label>
           <InputNumber name="age" defaultValue={user.age} />
-          <br />
+          <br/>
+          <label>Gender</label>
+          <div className="flex align-items-center gap-3">
+           <RadioButton
+             inputId="maleUpdate"
+             name="gender"
+             value="male"
+             onChange={(e) => setUpdatedGender(e.value)}
+             checked={updatedGender === 'male'}
+            />
+            <label htmlFor="maleUpdate" className="ml-2">Male</label>
+
+            <RadioButton
+            inputId="femaleUpdate"
+            name="gender"
+            value="female"
+            onChange={(e) => setUpdatedGender(e.value)}
+            checked={updatedGender === 'female'}
+            />
+            <label htmlFor="femaleUpdate" className="ml-2">Female</label>
+          </div><br />
           <label>Phone</label>
           <InputNumber name="phone" defaultValue={user.phone} />
           <br />
