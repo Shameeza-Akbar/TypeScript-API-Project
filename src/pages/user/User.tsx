@@ -17,6 +17,8 @@ import {
   addUser,
   updateUser,
 } from '../../services/UserServices';
+import { SearchForm } from "./SearchForm";
+
 
 export const UserPage: React.FC=()=>{
      const navigate = useNavigate();
@@ -120,12 +122,8 @@ export const UserPage: React.FC=()=>{
 
     return <>
     {token?<><Button label="LogOut" onClick={()=>setToken(null)}/><br/>
-        <h3>Search User </h3>
-          <form onSubmit={handleSubmit}>
-          <label>First name </label>
-          <InputText placeholder='Write First name' name='name'/>
-          <Button label='Search'/><br/>
-          </form>
+      
+      <SearchForm handleSubmit={handleSubmit}/>
           <h3>Apply Filter</h3>
           <form onSubmit={handleFilter}>
           <label>Property </label>
