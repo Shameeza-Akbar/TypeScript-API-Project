@@ -10,15 +10,14 @@ import { Home } from './pages/home/Home';
 import { UserPage } from './pages/user/User';
 import Error from './pages/Error/error';
 import RootLayout from './pages/RootLayout';
-import Dummy from './Dummy';
 import { Login } from './pages/login/Login';
-
+import { StartPage } from './Start'
 function App() {
   const router = createBrowserRouter ([
     {path:'/',element:<RootLayout/>,
       errorElement: <Error /> ,
     children:[
-      {index: true ,element:<Dummy/>},
+      {index: true ,element:<StartPage/>},
       {path:'users',element:<UserPage/>},
       {path:'login',element:<Login/>},
       {path:'home',element:<Home/>}]

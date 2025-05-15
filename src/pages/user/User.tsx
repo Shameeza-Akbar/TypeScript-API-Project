@@ -6,6 +6,8 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { RadioButton } from 'primereact/radiobutton';
 import { User } from "../home/types";
+import { confirmDialog } from 'primereact/confirmdialog';
+import { ConfirmDialog } from 'primereact/confirmdialog';
 import {
   getAllUsers,
   searchUsers,
@@ -101,6 +103,21 @@ export const UserPage: React.FC=()=>{
     setSelectedUser(null);
   };
 
+  const confirmDelete = (id: string) => {
+  confirmDialog({
+    message: 'Are you sure you want to delete this user?',
+    header: 'Delete Confirmation',
+    icon: 'pi pi-exclamation-triangle',
+    acceptLabel: 'Yes',
+    rejectLabel: 'No',
+    acceptClassName: 'p-button-danger',
+    accept: () => handleDelete(id),
+    reject: () => {
+      console.log('User cancelled deletion.');
+    },
+  });
+};
+
     return <>
     {token?<><Button label="LogOut" onClick={()=>setToken(null)}/><br/>
         <h3>Search User </h3>
@@ -181,8 +198,15 @@ export const UserPage: React.FC=()=>{
         </form>
       )}
       <Button label="Show All Users" onClick={fetchUsers} /> 
-
-            <DataTable
+{token ? (
+      <>
+        <ConfirmDialog />
+        {/* All your other components */}
+      </>
+    ) : (
+      <Button label="Go To LogIn Page" onClick={() => navigate('/login')} />
+    )}
+    <DataTable
         value={selectedUser ? [selectedUser] : users}
         tableStyle={{ minWidth: '50rem' }}
         selectionMode="single"
@@ -201,7 +225,7 @@ export const UserPage: React.FC=()=>{
             <Button
               icon="pi pi-trash"
               className="p-button-danger"
-              onClick={() => handleDelete(rowData.id)}
+              onClick={() => confirmDelete(rowData.id)}
             />
           )}
         />
